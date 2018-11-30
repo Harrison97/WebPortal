@@ -31,6 +31,8 @@ namespace WebPortal.Models
         {
         }
 
+        public DbSet<Link> Link { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
