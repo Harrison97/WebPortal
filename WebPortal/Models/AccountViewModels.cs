@@ -3,6 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace WebPortal.Models
 {
+    public class UserViewModel
+    {
+        public string Email { get; set; }
+        public string Role { get; set; }
+    }
+
     public class ExternalLoginConfirmationViewModel
     {
         [Required]

@@ -85,8 +85,17 @@ namespace WebPortal.Controllers
 
         public ActionResult Index()
         {
+            var usersWithRoles = (from user in Context.Users
+                                  from userRole in user.Roles
+                                  join role in Context.Roles on userRole.RoleId equals
+                                  role.Id
+                                  select new UserViewModel()
+                                  {
+                                      Email = user.Email,
+                                      Role = role.Name
+                                  }).ToList();
 
-            return View(Context.Users.ToList());
+            return View(usersWithRoles);
         }
 
         //
