@@ -19,17 +19,19 @@ namespace WebPortal.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationRoleManager _roleManager;
+        private ApplicationDbContext _context;
 
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager, ApplicationDbContext context )
         {
             UserManager = userManager;
             SignInManager = signInManager;
             RoleManager = roleManager;
+            Context = context;
         }
 
         public ApplicationRoleManager RoleManager
@@ -66,6 +68,25 @@ namespace WebPortal.Controllers
             {
                 _userManager = value;
             }
+        }
+
+        public ApplicationDbContext Context
+        {
+            get
+            {
+                return _context ?? HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+            }
+            private set
+            {
+                _context = value;
+            }
+        }
+
+
+        public ActionResult Index()
+        {
+
+            return View(UserManager.Users.ToList());
         }
 
         //
