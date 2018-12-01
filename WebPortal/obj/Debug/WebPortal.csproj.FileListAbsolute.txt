@@ -102,6 +102,7 @@ C:\Users\Harri\source\repos\WebPortal\WebPortal\bin\Microsoft.Owin.Security.OAut
 C:\Users\Harri\source\repos\WebPortal\WebPortal\bin\System.Diagnostics.DiagnosticSource.xml
 C:\Users\Harri\source\repos\WebPortal\WebPortal\bin\Microsoft.AspNet.TelemetryCorrelation.xml
 C:\Users\Harri\source\repos\WebPortal\WebPortal\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
+C:\Users\Harri\source\repos\WebPortal\WebPortal\obj\Debug\WebPortal.csprojAssemblyReference.cache
 C:\Users\Harri\source\repos\WebPortal\WebPortal\obj\Debug\WebPortal.Migrations.InitialCreate.resources
 C:\Users\Harri\source\repos\WebPortal\WebPortal\obj\Debug\WebPortal.Migrations.role.resources
 C:\Users\Harri\source\repos\WebPortal\WebPortal\obj\Debug\WebPortal.Migrations.link.resources
@@ -110,4 +111,3 @@ C:\Users\Harri\source\repos\WebPortal\WebPortal\obj\Debug\WebPortal.csproj.CoreC
 C:\Users\Harri\source\repos\WebPortal\WebPortal\obj\Debug\WebPortal.csproj.CopyComplete
 C:\Users\Harri\source\repos\WebPortal\WebPortal\obj\Debug\WebPortal.dll
 C:\Users\Harri\source\repos\WebPortal\WebPortal\obj\Debug\WebPortal.pdb
-C:\Users\Harri\source\repos\WebPortal\WebPortal\obj\Debug\WebPortal.csprojAssemblyReference.cache

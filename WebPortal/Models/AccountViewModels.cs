@@ -5,9 +5,27 @@ namespace WebPortal.Models
 {
     public class UserViewModel
     {
+        public string Id { get; set; }
         public string Email { get; set; }
         public string Role { get; set; }
+        public string RoleId { get; set; }
     }
+
+    public class UserDeleteViewModel
+    {
+        public UserDeleteViewModel() { }
+        public UserDeleteViewModel(ApplicationUser user)
+        {
+            Id = user.Id;
+            Email = user.Email;
+            
+        }
+        public string Id { get; set; }
+        public string Email { get; set; }
+        public string Role { get; set; }
+        public string RoleId { get; set; }
+    }
+
 
     public class ExternalLoginConfirmationViewModel
     {

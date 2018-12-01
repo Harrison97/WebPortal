@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -91,12 +95,105 @@ namespace WebPortal.Controllers
                                   role.Id
                                   select new UserViewModel()
                                   {
+                                      Id = user.Id,
                                       Email = user.Email,
                                       Role = role.Name
                                   }).ToList();
 
             return View(usersWithRoles);
         }
+
+        public void DeleteAccount(string id)
+        {
+            string connectionString = ConfigurationManager.ConnectionStrings["DBCS"].ConnectionString;
+
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                SqlCommand cmd = new SqlCommand("spDeleteEmployee", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                SqlParameter paramId = new SqlParameter();
+                paramId.ParameterName = "@Id";
+                paramId.Value = id;
+                cmd.Parameters.Add(paramId);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public ActionResult Delete()
+        {
+            return RedirectToAction("Index");
+        }
+
+        //public async Task<ActionResult> Delete(string id)
+        //{
+
+        //    var user = await UserManager.FindByIdAsync(id);
+        //    return View(new UserDeleteViewModel(user));
+        //}
+
+        //public async Task<ActionResult> DeleteConfirmed(string id)
+        //{
+        //    if (id == null)
+        //    {
+        //        return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //    }
+
+        //    var user = await UserManager.FindByIdAsync(id);
+        //    //await RoleManager.DeleteAsync(role);
+
+        //    //var remFromRole = await UserManager.RemoveFromRoleAsync(id, id);
+        //    using (var transaction = Context.Database.BeginTransaction())
+        //    {
+              
+
+        //        //Delete User
+        //        await UserManager.DeleteAsync(user);
+
+        //        TempData["Message"] = "User Deleted Successfully. ";
+        //        TempData["MessageValue"] = "1";
+        //        //transaction.commit();
+        //    }
+        //    //var user = await UserManager.FindByIdAsync(id);
+        //    await UserManager.DeleteAsync(user);
+        //    return RedirectToAction("Index");
+        //}
+
+        //[HttpPost]
+        //public ActionResult Delete(string id)
+        //{
+
+        //    ApplicationUser user = (ApplicationUser)await UserManager.Users.FindAsync(id, CancellationToken.None);
+        //    if (user != null)
+        //    {
+        //        try
+        //        {
+        //            using (ApplicationDbContext dbcontext = new ApplicationDbContext())
+        //            {
+        //                dbcontext.UserLogins.RemoveRange(dbcontext.UserLogins.Where(ul => ul.UserId == user.Id));
+
+        //                dbcontext.UserRoles.RemoveRange(dbcontext.UserRoles.Where(ur => ur.UserId == user.Id));
+
+        //                dbcontext.UserSecrets.RemoveRange(dbcontext.UserSecrets.Where(us => us.UserName == user.UserName));
+
+        //                dbcontext.UserManagement.RemoveRange(dbcontext.UserManagement.Where(um => um.UserId == user.Id));
+
+        //                dbcontext.Users.Remove(dbcontext.Users.Where(usr => usr.Id == user.Id).Single());
+
+        //                dbcontext.SaveChanges();
+        //            }
+        //            return new HttpResponseMessage(HttpStatusCode.OK);
+        //        }
+        //        catch (Exception ex)
+        //        {
+        //            Trace.TraceError("Error occurred while deleting user: {0}", ex.ToString());
+        //            return new HttpResponseMessage(HttpStatusCode.InternalServerError);
+        //        }
+        //    }
+        //    return new HttpResponseMessage(HttpStatusCode.NotFound);
+        //}
 
         //
         // GET: /Account/Login

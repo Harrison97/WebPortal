@@ -270,6 +270,8 @@
     <Content Include="Views\Link\Edit.cshtml" />
     <Content Include="Views\Link\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\Account\Delete.cshtml" />
+    <Content Include="Views\Link\AssView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

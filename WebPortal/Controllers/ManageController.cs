@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -15,15 +16,60 @@ namespace WebPortal.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext _context;
 
         public ManageController()
         {
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationDbContext context)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            Context = context;
+        }
+
+        public async Task<ActionResult> DeleteUserd(string userId)
+        {
+            if (userId == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            //get User Data from Userid
+            var user = await UserManager.FindByIdAsync(userId);
+
+            //List Logins associated with user
+            var logins = user.Logins;
+
+            //Gets list of Roles associated with current user
+            var rolesForUser = await UserManager.GetRolesAsync(userId);
+
+            using (var transaction = Context.Database.BeginTransaction())
+            {
+                foreach (var login in logins.ToList())
+                {
+                    await UserManager.RemoveLoginAsync(login.UserId, new UserLoginInfo(login.LoginProvider, login.ProviderKey));
+                }
+
+                if (rolesForUser.Count() > 0)
+                {
+                    foreach (var item in rolesForUser.ToList())
+                    {
+                        // item should be the name of the role
+                        var result = await UserManager.RemoveFromRoleAsync(user.Id, item);
+                    }
+                }
+
+                //Delete User
+                await UserManager.DeleteAsync(user);
+
+                TempData["Message"] = "User Deleted Successfully. ";
+                TempData["MessageValue"] = "1";
+                //transaction.commit();
+            }
+
+            return RedirectToAction("UsersWithRoles", "ManageUsers", new { area = "", });
         }
 
         public ApplicationSignInManager SignInManager
@@ -47,6 +93,18 @@ namespace WebPortal.Controllers
             private set
             {
                 _userManager = value;
+            }
+        }
+
+        public ApplicationDbContext Context
+        {
+            get
+            {
+                return _context ?? HttpContext.GetOwinContext().Get<ApplicationDbContext>();
+            }
+            private set
+            {
+                _context = value;
             }
         }
 
